@@ -1,0 +1,27 @@
+name: Sync Project
+
+on:
+  schedule:
+    # 每天凌晨1点执行（Cron语法）
+    - cron: '0 1 * * *'
+
+jobs:
+  sync-and-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # 获取全部历史记录，以便进行合并操作
+          ref: master # 或者你想要合并到的分支名
+
+      - name: Add remote repository
+        run: |
+          git remote add upstream https://github.com/zhayujie/chatgpt-on-wechat.git # 替换为要同步的项目的URL
+          git fetch upstream
+
+      - name: Merge upstream changes
+        run: |
+          git checkout master # 切换到要合并到的分支
+          git merge upstream/master --allow-unrelated-histories # 合并上游更改，允许无关历史记录
+          git push origin master # 推送到当前仓库的分支
