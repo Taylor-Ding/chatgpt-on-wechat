@@ -17,6 +17,8 @@ jobs:
 
       - name: Add remote repository
         run: |
+          git config --global user.email "zhujinwei0001@gmail.com"
+          git config --global user.name "Taylor-Ding"
           git remote add upstream https://github.com/zhayujie/chatgpt-on-wechat.git # 替换为要同步的项目的URL
           git fetch upstream
 
